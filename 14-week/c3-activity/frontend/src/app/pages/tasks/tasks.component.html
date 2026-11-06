@@ -1,0 +1,41 @@
+<section class="mb-4">
+  <form (ngSubmit)="add()" class="row g-2">
+    <div class="col-9">
+      <input name="title" class="form-control" placeholder="Nueva tarea..." [(ngModel)]="newTitle" />
+    </div>
+    <div class="col-3">
+      <button type="submit" class="btn btn-primary w-100">Agregar</button>
+    </div>
+  </form>
+</section>
+
+<section>
+  @if (loading()) {
+    <div class="d-flex align-items-center gap-2 text-secondary mb-3" data-testid="loading">
+      <div class="spinner-border spinner-border-sm" role="status"></div>
+      <span>Cargando tareas...</span>
+    </div>
+  }
+
+  @if (error()) {
+    <div class="alert alert-danger py-2" role="alert" data-testid="tasks-error">{{ error() }}</div>
+  }
+
+  <ul class="list-group">
+    @for (task of tasks(); track task.id) {
+      <li class="list-group-item d-flex justify-content-between align-items-center" data-testid="task-item">
+        <span [class.text-decoration-line-through]="task.done" [class.text-muted]="task.done">
+          {{ task.title }}
+        </span>
+        <span>
+          <button type="button" class="btn btn-sm btn-outline-success me-1" (click)="toggle(task)">✓</button>
+          <button type="button" class="btn btn-sm btn-outline-danger" (click)="remove(task)">✕</button>
+        </span>
+      </li>
+    } @empty {
+      @if (!loading() && !error()) {
+        <li class="list-group-item text-muted">No hay tareas todavía</li>
+      }
+    }
+  </ul>
+</section>
