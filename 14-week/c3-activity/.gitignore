@@ -1,0 +1,12 @@
+# Node / Angular
+node_modules/
+frontend/dist/
+frontend/.angular/
+
+# .NET
+bin/
+obj/
+
+# Editor / OS
+.vscode/
+.DS_Store

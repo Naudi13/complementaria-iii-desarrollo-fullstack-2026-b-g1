@@ -1,0 +1,10 @@
+# Alternativa a "docker run": levanta todo con un solo comando.
+#   docker compose up --build
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      # Cambia esta clave (mínimo 32 caracteres). Nunca la subas a GitHub en un proyecto real.
+      Jwt__Key: "clave-de-ejemplo-para-docker-cambiala-por-una-propia-123456"
