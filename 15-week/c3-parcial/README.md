@@ -1,5 +1,9 @@
 # CitasMed · Parcial práctico Corte 3
 
+Complementaria III · Desarrollo Fullstack · CORHUILA 2026-B. Trabajo **individual**.
+
+Nombre completo: Victor Alfonso Tovar Ramirez
+
 Sistema de **agenda de citas médicas**: los pacientes reservan citas, los médicos atienden su agenda y el administrador gestiona médicos y citas.
 Se usa para responder los tres problemas del parcial: seguridad, integración y pruebas, y despliegue.
 
@@ -92,15 +96,17 @@ cd frontend && npm install && npx ng serve
 
 ### Usuarios de demostración
 
-Se crean automáticamente en desarrollo (y en Docker si `SEED_DEMO_DATA=true`). Todos usan la contraseña definida en `DbSeeder.DevPassword` ([DbSeeder.cs](backend/src/CitasMed.Infrastructure/Persistence/DbSeeder.cs)).
+Se crean automáticamente en desarrollo (y en Docker si `SEED_DEMO_DATA=true`).
 
-| Rol | Email |
-|---|---|
-| Admin | `admin@citasmed.test` |
-| Paciente | `paciente@citasmed.test` |
-| Paciente | `paciente2@citasmed.test` |
-| Médico (Medicina General) | `laura.gomez@citasmed.test` |
-| Médico (Pediatría) | `andres.rojas@citasmed.test` |
+| Rol | Email | Contraseña |
+|---|---|---|
+| Admin | `admin@citasmed.test` | `CitasMed2026*` |
+| Paciente | `paciente@citasmed.test` | `CitasMed2026*` |
+| Paciente | `paciente2@citasmed.test` | `CitasMed2026*` |
+| Médico (Medicina General) | `laura.gomez@citasmed.test` | `CitasMed2026*` |
+| Médico (Pediatría) | `andres.rojas@citasmed.test` | `CitasMed2026*` |
+
+> ⚠️ Son credenciales **solo de prueba** (definidas en [DbSeeder.cs](backend/src/CitasMed.Infrastructure/Persistence/DbSeeder.cs)). En producción se desactiva el seed con `SEED_DEMO_DATA=false`.
 
 ## Pruebas
 
