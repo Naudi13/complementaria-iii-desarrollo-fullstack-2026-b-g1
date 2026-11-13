@@ -1,0 +1,72 @@
+<div class="page-header">
+  <h1>Reservar cita</h1>
+  <a routerLink="/citas/mias" class="btn">Volver</a>
+</div>
+
+@if (loading()) {
+  <app-loading-spinner message="Cargando médicos..." />
+} @else {
+  <form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    @if (error(); as message) {
+      <app-error-alert [message]="message" />
+    }
+
+    <label class="field">
+      <span>Especialidad</span>
+      <select formControlName="especialidadId">
+        <option [ngValue]="0">Todas</option>
+        @for (esp of especialidades(); track esp.id) {
+          <option [ngValue]="esp.id">{{ esp.nombre }}</option>
+        }
+      </select>
+    </label>
+
+    <label class="field">
+      <span>Médico</span>
+      <select formControlName="medicoId">
+        <option [ngValue]="0" disabled>Selecciona un médico...</option>
+        @for (medico of medicosFiltrados(); track medico.id) {
+          <option [ngValue]="medico.id">{{ medico.nombre }} · {{ medico.especialidad }}</option>
+        }
+      </select>
+      @if (form.controls.medicoId.touched && form.controls.medicoId.invalid) {
+        <small class="error-text">Selecciona un médico.</small>
+      }
+    </label>
+
+    <div class="row">
+      <label class="field">
+        <span>Fecha</span>
+        <input type="date" formControlName="fecha" [min]="hoy" />
+        @if (form.controls.fecha.touched && form.controls.fecha.invalid) {
+          <small class="error-text">Selecciona la fecha.</small>
+        }
+      </label>
+
+      <label class="field">
+        <span>Hora</span>
+        <select formControlName="hora">
+          <option value="" disabled>--:--</option>
+          @for (franja of franjas; track franja) {
+            <option [value]="franja">{{ franja }}</option>
+          }
+        </select>
+        @if (form.controls.hora.touched && form.controls.hora.invalid) {
+          <small class="error-text">Selecciona la hora.</small>
+        }
+      </label>
+    </div>
+
+    <label class="field">
+      <span>Motivo de la consulta</span>
+      <textarea formControlName="motivo" rows="3" maxlength="300"></textarea>
+      @if (form.controls.motivo.touched && form.controls.motivo.invalid) {
+        <small class="error-text">Describe brevemente el motivo.</small>
+      }
+    </label>
+
+    <button type="submit" class="btn btn-primary" [disabled]="saving()">
+      {{ saving() ? 'Reservando...' : 'Reservar' }}
+    </button>
+  </form>
+}

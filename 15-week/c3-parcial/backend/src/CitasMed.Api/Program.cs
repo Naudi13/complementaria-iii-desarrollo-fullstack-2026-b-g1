@@ -23,8 +23,7 @@ builder.Services.AddProblemDetails();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddHealthChecks();
 builder.Services.AddSwaggerWithJwt();
-
-// Fase 4: AddCors(...) con la política "Frontend"
+builder.Services.AddFrontendCors(builder.Configuration);
 
 var app = builder.Build();
 
@@ -39,7 +38,8 @@ if (app.Environment.IsDevelopment())
     await app.Services.InitializeDatabaseAsync(); // migraciones + datos de prueba
 }
 
-// Fase 4: app.UseCors("Frontend");
+// CORS va ANTES de autenticación: las peticiones preflight (OPTIONS) no llevan token.
+app.UseCors(CorsExtensions.FrontendPolicy);
 app.UseAuthentication(); // ¿quién eres?  → lee y valida el JWT
 app.UseAuthorization();  // ¿qué puedes hacer? → [Authorize], roles
 

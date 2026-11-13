@@ -1,0 +1,46 @@
+<div class="page-header">
+  <h1>Médicos</h1>
+  @if (auth.hasRole('Admin')) {
+    <a routerLink="nuevo" class="btn btn-primary">Nuevo médico</a>
+  }
+</div>
+
+<label class="field inline">
+  <span>Especialidad</span>
+  <select [ngModel]="especialidadId()" (ngModelChange)="filtrar($event)">
+    <option [ngValue]="null">Todas</option>
+    @for (esp of especialidades(); track esp.id) {
+      <option [ngValue]="esp.id">{{ esp.nombre }}</option>
+    }
+  </select>
+</label>
+
+@if (actionError(); as message) {
+  <app-error-alert [message]="message" />
+}
+
+@if (loading()) {
+  <app-loading-spinner message="Cargando médicos..." />
+} @else if (error(); as message) {
+  <app-error-alert [message]="message" [retryable]="true" (retry)="load()" />
+} @else {
+  <div class="grid">
+    @for (medico of medicos(); track medico.id) {
+      <article class="card">
+        <h3>{{ medico.nombre }}</h3>
+        <p class="muted">{{ medico.especialidad }}</p>
+        <p><small>Registro: {{ medico.registroProfesional }}</small></p>
+        @if (auth.hasRole('Paciente')) {
+          <a class="btn btn-primary" routerLink="/citas/reservar" [queryParams]="{ medicoId: medico.id }">Reservar</a>
+        }
+        @if (auth.hasRole('Admin')) {
+          <button type="button" class="btn btn-danger" [disabled]="eliminandoId() === medico.id" (click)="eliminar(medico)">
+            {{ eliminandoId() === medico.id ? 'Eliminando...' : 'Eliminar' }}
+          </button>
+        }
+      </article>
+    } @empty {
+      <p class="empty">No hay médicos para esta especialidad.</p>
+    }
+  </div>
+}
