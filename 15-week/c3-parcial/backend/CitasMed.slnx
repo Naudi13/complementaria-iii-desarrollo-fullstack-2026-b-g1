@@ -5,4 +5,8 @@
     <Project Path="src/CitasMed.Domain/CitasMed.Domain.csproj" />
     <Project Path="src/CitasMed.Infrastructure/CitasMed.Infrastructure.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CitasMed.IntegrationTests/CitasMed.IntegrationTests.csproj" />
+    <Project Path="tests/CitasMed.UnitTests/CitasMed.UnitTests.csproj" />
+  </Folder>
 </Solution>
