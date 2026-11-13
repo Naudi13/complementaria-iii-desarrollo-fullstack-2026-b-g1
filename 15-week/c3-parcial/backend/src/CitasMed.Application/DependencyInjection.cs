@@ -1,3 +1,5 @@
+using CitasMed.Application.Features.Auth;
+using CitasMed.Application.Features.Usuarios;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CitasMed.Application;
@@ -10,7 +12,9 @@ public static class DependencyInjection
     /// </summary>
     public static IServiceCollection AddApplication(this IServiceCollection services)
     {
-        // Fase 2: services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IAuthService, AuthService>();
+        services.AddScoped<IUsuarioService, UsuarioService>();
+
         // Fase 3: services.AddScoped<IMedicoService, MedicoService>();
         //         services.AddScoped<ICitaService, CitaService>();
         return services;
