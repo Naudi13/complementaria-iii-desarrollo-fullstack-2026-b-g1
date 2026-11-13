@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CitasMed.Api/CitasMed.Api.csproj" />
+    <Project Path="src/CitasMed.Application/CitasMed.Application.csproj" />
+    <Project Path="src/CitasMed.Domain/CitasMed.Domain.csproj" />
+    <Project Path="src/CitasMed.Infrastructure/CitasMed.Infrastructure.csproj" />
+  </Folder>
+</Solution>
