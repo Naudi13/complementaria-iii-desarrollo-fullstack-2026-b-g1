@@ -31,11 +31,19 @@ var app = builder.Build();
 app.UseExceptionHandler();
 app.UseStatusCodePages(); // 401/403/404 sin cuerpo también salen como ProblemDetails
 
-if (app.Environment.IsDevelopment())
+// En Development todo viene activado; en Docker/producción se decide por variables de entorno.
+var isDev = app.Environment.IsDevelopment();
+
+if (isDev || app.Configuration.GetValue<bool>("Swagger:Enabled"))
 {
     app.UseSwagger();
     app.UseSwaggerUI();
-    await app.Services.InitializeDatabaseAsync(); // migraciones + datos de prueba
+}
+
+if (isDev || app.Configuration.GetValue<bool>("Database:MigrateOnStartup"))
+{
+    var seed = isDev || app.Configuration.GetValue<bool>("Database:SeedDemoData");
+    await app.Services.InitializeDatabaseAsync(seed); // migraciones (+ datos de demostración)
 }
 
 // CORS va ANTES de autenticación: las peticiones preflight (OPTIONS) no llevan token.

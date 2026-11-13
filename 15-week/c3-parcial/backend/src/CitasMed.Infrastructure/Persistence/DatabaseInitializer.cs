@@ -7,16 +7,21 @@ namespace CitasMed.Infrastructure.Persistence;
 public static class DatabaseInitializer
 {
     /// <summary>
-    /// Aplica las migraciones pendientes y carga los datos de prueba.
-    /// Se invoca al arrancar la Api en entorno Development.
+    /// Aplica las migraciones pendientes y, si se indica, carga los datos de demostración.
+    /// En Development se ejecuta siempre; en otros entornos se controla con
+    /// Database__MigrateOnStartup y Database__SeedDemoData.
     /// </summary>
-    public static async Task InitializeDatabaseAsync(this IServiceProvider services, CancellationToken ct = default)
+    public static async Task InitializeDatabaseAsync(this IServiceProvider services, bool seedDemoData, CancellationToken ct = default)
     {
         using var scope = services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
 
         await db.Database.MigrateAsync(ct);
-        await DbSeeder.SeedAsync(db, hasher, ct);
+
+        if (seedDemoData)
+        {
+            var hasher = scope.ServiceProvider.GetRequiredService<IPasswordHasher>();
+            await DbSeeder.SeedAsync(db, hasher, ct);
+        }
     }
 }
