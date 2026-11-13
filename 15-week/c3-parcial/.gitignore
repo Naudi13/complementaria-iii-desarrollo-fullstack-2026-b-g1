@@ -1,0 +1,2 @@
+# Variables de entorno con secretos: nunca al repositorio
+.env

@@ -1,0 +1,39 @@
+# CitasMed: API (.NET) + frontend (Angular servido con nginx)
+#
+# Uso:
+#   1. cp .env.example .env    y define JWT_KEY (mínimo 32 caracteres)
+#   2. docker compose up --build
+#   3. Abrir http://localhost:8088  (API/Swagger en http://localhost:5080/swagger)
+
+services:
+  api:
+    build: ./backend
+    image: citasmed-api
+    environment:
+      ASPNETCORE_ENVIRONMENT: Production
+      ConnectionStrings__Default: "Data Source=/app/data/citasmed.db"
+      Jwt__Key: ${JWT_KEY:?Define JWT_KEY en el archivo .env}
+      Jwt__Issuer: ${JWT_ISSUER:-CitasMed.Api}
+      Jwt__Audience: ${JWT_AUDIENCE:-CitasMed.Frontend}
+      Jwt__ExpiresMinutes: ${JWT_EXPIRES_MINUTES:-60}
+      Cors__AllowedOrigins: ${CORS_ALLOWED_ORIGINS:-http://localhost:8088}
+      Database__MigrateOnStartup: "true"
+      Database__SeedDemoData: ${SEED_DEMO_DATA:-true}
+      Swagger__Enabled: ${SWAGGER_ENABLED:-true}
+    volumes:
+      - citasmed-data:/app/data
+    ports:
+      - "5080:8080"
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    image: citasmed-web
+    depends_on:
+      - api
+    ports:
+      - "8088:80"
+    restart: unless-stopped
+
+volumes:
+  citasmed-data:

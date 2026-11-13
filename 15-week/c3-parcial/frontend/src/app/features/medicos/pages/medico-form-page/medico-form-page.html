@@ -1,0 +1,59 @@
+<div class="page-header">
+  <h1>Nuevo médico</h1>
+  <a routerLink="/medicos" class="btn">Volver</a>
+</div>
+
+<form class="card form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+  @if (error(); as message) {
+    <app-error-alert [message]="message" />
+  }
+
+  <label class="field">
+    <span>Nombre completo</span>
+    <input formControlName="nombre" />
+    @if (form.controls.nombre.touched && form.controls.nombre.invalid) {
+      <small class="error-text">Mínimo 3 caracteres.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Email</span>
+    <input type="email" formControlName="email" />
+    @if (form.controls.email.touched && form.controls.email.invalid) {
+      <small class="error-text">Ingresa un email válido.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Contraseña inicial</span>
+    <input type="password" formControlName="password" autocomplete="new-password" />
+    @if (form.controls.password.touched && form.controls.password.invalid) {
+      <small class="error-text">Mínimo 8 caracteres.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Registro profesional</span>
+    <input formControlName="registroProfesional" />
+    @if (form.controls.registroProfesional.touched && form.controls.registroProfesional.invalid) {
+      <small class="error-text">El registro es obligatorio.</small>
+    }
+  </label>
+
+  <label class="field">
+    <span>Especialidad</span>
+    <select formControlName="especialidadId">
+      <option [ngValue]="0" disabled>Selecciona...</option>
+      @for (esp of especialidades(); track esp.id) {
+        <option [ngValue]="esp.id">{{ esp.nombre }}</option>
+      }
+    </select>
+    @if (form.controls.especialidadId.touched && form.controls.especialidadId.invalid) {
+      <small class="error-text">Selecciona una especialidad.</small>
+    }
+  </label>
+
+  <button type="submit" class="btn btn-primary" [disabled]="saving()">
+    {{ saving() ? 'Guardando...' : 'Guardar' }}
+  </button>
+</form>

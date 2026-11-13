@@ -1,0 +1,6 @@
+@CitasMed.Api_HostAddress = http://localhost:5142
+
+GET {{CitasMed.Api_HostAddress}}/health
+Accept: text/plain
+
+###
