@@ -15,4 +15,7 @@ public class UserRepository(AppDbContext db) : IUserRepository
 
     public async Task<IReadOnlyList<User>> GetAllAsync(CancellationToken ct = default) =>
         await db.Users.AsNoTracking().OrderBy(u => u.Nombre).ToListAsync(ct);
+
+    public Task<bool> ExistsByEmailAsync(string email, CancellationToken ct = default) =>
+        db.Users.AnyAsync(u => u.Email == email, ct);
 }

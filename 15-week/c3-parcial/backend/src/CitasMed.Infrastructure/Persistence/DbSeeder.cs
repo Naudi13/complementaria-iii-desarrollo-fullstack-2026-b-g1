@@ -26,6 +26,7 @@ public static class DbSeeder
 
         var admin = new User { Nombre = "Administrador", Email = "admin@citasmed.test", PasswordHash = hash, Rol = Rol.Admin };
         var paciente = new User { Nombre = "Paciente Demo", Email = "paciente@citasmed.test", PasswordHash = hash, Rol = Rol.Paciente };
+        var paciente2 = new User { Nombre = "Paciente Dos", Email = "paciente2@citasmed.test", PasswordHash = hash, Rol = Rol.Paciente };
 
         var medico1 = new Medico
         {
@@ -40,7 +41,7 @@ public static class DbSeeder
             User = new User { Nombre = "Dr. Andrés Rojas", Email = "andres.rojas@citasmed.test", PasswordHash = hash, Rol = Rol.Medico }
         };
 
-        db.Users.AddRange(admin, paciente);
+        db.Users.AddRange(admin, paciente, paciente2);
         db.Medicos.AddRange(medico1, medico2);
 
         await db.SaveChangesAsync(ct);

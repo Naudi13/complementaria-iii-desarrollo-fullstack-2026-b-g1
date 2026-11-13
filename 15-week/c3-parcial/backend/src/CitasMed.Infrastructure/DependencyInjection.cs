@@ -1,4 +1,7 @@
 using CitasMed.Application.Common.Interfaces;
+using CitasMed.Application.Features.Citas;
+using CitasMed.Application.Features.Especialidades;
+using CitasMed.Application.Features.Medicos;
 using CitasMed.Application.Features.Usuarios;
 using CitasMed.Infrastructure.Persistence;
 using CitasMed.Infrastructure.Repositories;
@@ -24,7 +27,12 @@ public static class DependencyInjection
 
         services.AddDbContext<AppDbContext>(options => options.UseSqlite(connectionString));
 
+        services.AddScoped<IUnitOfWork>(sp => sp.GetRequiredService<AppDbContext>());
+
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IEspecialidadRepository, EspecialidadRepository>();
+        services.AddScoped<IMedicoRepository, MedicoRepository>();
+        services.AddScoped<ICitaRepository, CitaRepository>();
 
         // ---------- Seguridad ----------
         // ValidateOnStart: si falta la clave JWT o es muy corta, la app no arranca (falla rápido).

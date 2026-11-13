@@ -1,9 +1,10 @@
+using CitasMed.Application.Common.Interfaces;
 using CitasMed.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CitasMed.Infrastructure.Persistence;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IUnitOfWork
 {
     public DbSet<User> Users => Set<User>();
     public DbSet<Especialidad> Especialidades => Set<Especialidad>();
